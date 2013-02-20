@@ -2,8 +2,15 @@ Source: libanyevent-yubico-perl
 Section: perl
 Priority: optional
 Maintainer: Yubico Open Source Maintainers <ossmaint@yubico.com>
+Uploaders: Dain Nilsson <dain@yubico.com>
 Build-Depends: debhelper (>= 8)
-Build-Depends-Indep: perl
+Build-Depends-Indep: perl,
+ libtest-exception-perl,
+ libanyevent-http-perl,
+ libuuid-tiny-perl,
+ libmime-base64-perl,
+ libdigest-hmac-perl,
+ liburi-perl
 Standards-Version: 3.9.3
 Homepage: http://search.cpan.org/dist/AnyEvent-Yubico
 Vcs-Browser: https://github.com/Yubico/yubico-perl-client
