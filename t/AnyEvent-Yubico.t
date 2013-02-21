@@ -8,18 +8,18 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 6;
 use Test::Exception;
 BEGIN { use_ok('AnyEvent::Yubico') };
 
 #########################
 
-# Insert your test code below, the Test::More module is use()ed here so read
-# its man page ( perldoc Test::More ) for help writing this test script.
+my $client_id = 10450;
+my $api_key = "uSzStPl2FolBbpJyDrDQxlIQElk=";
 
 my $validator = AnyEvent::Yubico->new({
-	client_id => 10450,
-	api_key => "uSzStPl2FolBbpJyDrDQxlIQElk="
+	client_id => $client_id,
+	api_key => $api_key
 });
 
 my $test_params = {
@@ -34,21 +34,39 @@ ok(defined($validator) && ref $validator eq "AnyEvent::Yubico", "new() works");
 
 is($validator->sign($test_params), $test_signature, "sign() works");
 
-is($validator->verify_sync("ccccccbhjkbulvkhvfuhlltctnjtgrvjuvcllliufiht")->{status}, "REPLAYED_OTP", "replayed OTP");
-
-is($validator->verify_sync("ccccccbhjkbubrbnrtifbiuhevinenrhtlckuctjjuuu")->{status}, "BAD_OTP", "invalid OTP");
-
 my $default_urls = $validator->{urls};
-$validator->{urls} = [ "http://example.com" ];
+$validator->{urls} = [ "http://127.0.0.1" ];
 
 dies_ok {
 	my $res = $validator->verify_async("vvgnkjjhndihvgdftlubvujrhtjnllfjneneugijhfll");
 	$res->recv();
 } 'invalid URL';
 
-#ok(1);
-
 $validator->{urls} = $default_urls;
 $validator->{local_timeout} = 0.0;
 
 is($validator->verify_sync("vvgnkjjhndihvgdftlubvujrhtjnllfjneneugijhfll")->{status}, "TIMEOUT_REACHED", "timeout");
+
+$validator->{local_timeout} = 30.0;
+
+subtest 'Tests that require access to the Internet' => sub {
+	if(exists($ENV{'NO_INTERNET'})) {
+		plan skip_all => 'Internet tests';
+	} else {
+		plan tests => 4;
+	}
+
+	is($validator->verify_sync("ccccccbhjkbulvkhvfuhlltctnjtgrvjuvcllliufiht")->{status}, "REPLAYED_OTP", "replayed OTP");
+
+	$validator->{api_key} = '';
+	my $result = $validator->verify_sync("ccccccbhjkbubrbnrtifbiuhevinenrhtlckuctjjuuu");
+
+	is($result->{status}, "BAD_OTP", "invalid OTP");
+
+	#Test manual signature verification
+	ok(exists($result->{h}), "signature exists");
+	my $sig = $result->{h};
+	delete $result->{h};
+	$validator->{api_key} = $api_key;
+	is($validator->sign($result), $sig, "signature is correct");
+};
