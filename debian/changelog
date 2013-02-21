@@ -1,5 +1,5 @@
 libanyevent-yubico-perl (0.9.1-1) unstable; urgency=low
 
-  * Initial Release.
+  * Initial Release (closes: #701103).
 
  -- Dain Nilsson <dain@yubico.com>  Wed, 20 Feb 2013 15:53:36 +0100
