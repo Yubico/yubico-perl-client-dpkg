@@ -7,7 +7,7 @@ use MIME::Base64;
 use Digest::HMAC_SHA1 qw(hmac_sha1);
 use URI::Escape;
 
-our $VERSION = '0.9.0';
+our $VERSION = '0.9.1';
 
 # Creates a new Yubico instance to be used for validation of OTPs.
 sub new {
@@ -165,10 +165,12 @@ sub parse_response {
 	my $body = shift;
 	my $response = {};
 
-	my @lines = split(' ', $body);
-	foreach my $line (@lines) {
-		my $index = index($line, '=');
-		$response->{substr($line, 0, $index)} = substr($line, $index+1);
+	if($body) {
+		my @lines = split(' ', $body);
+		foreach my $line (@lines) {
+			my $index = index($line, '=');
+			$response->{substr($line, 0, $index)} = substr($line, $index+1);
+		}
 	}
 
 	return $response;
