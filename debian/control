@@ -10,7 +10,6 @@ Build-Depends-Indep: perl,
  libuuid-tiny-perl (>= 1.0),
  libdigest-hmac-perl (>= 1.02),
  liburi-perl (>= 1.54),
- libnet-ssleay-perl (>= 1.36)
 Standards-Version: 3.9.3
 Homepage: http://search.cpan.org/dist/AnyEvent-Yubico
 Vcs-Browser: https://github.com/Yubico/yubico-perl-client
