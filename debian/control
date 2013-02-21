@@ -5,12 +5,12 @@ Maintainer: Yubico Open Source Maintainers <ossmaint@yubico.com>
 Uploaders: Dain Nilsson <dain@yubico.com>
 Build-Depends: debhelper (>= 8)
 Build-Depends-Indep: perl,
- libtest-exception-perl,
- libanyevent-http-perl,
- libuuid-tiny-perl,
- libmime-base64-perl,
- libdigest-hmac-perl,
- liburi-perl
+ libtest-exception-perl (>= 0.29),
+ libanyevent-http-perl (>= 2.14),
+ libuuid-tiny-perl (>= 1.0),
+ libdigest-hmac-perl (>= 1.02),
+ liburi-perl (>= 1.54),
+ libnet-ssleay-perl (>= 1.36)
 Standards-Version: 3.9.3
 Homepage: http://search.cpan.org/dist/AnyEvent-Yubico
 Vcs-Browser: https://github.com/Yubico/yubico-perl-client
@@ -18,8 +18,14 @@ Vcs-Git: git://github.com/Yubico/yubico-perl-client.git
 
 Package: libanyevent-yubico-perl
 Architecture: all
-Depends: ${misc:Depends}, ${perl:Depends}
-Description: AnyEvent based Perl module for validating YubiKey OTPs.
+Depends: ${misc:Depends}, ${perl:Depends},
+ libtest-exception-perl (>= 0.29),
+ libanyevent-http-perl (>= 2.14),
+ libuuid-tiny-perl (>= 1.0),
+ libdigest-hmac-perl (>= 1.02),
+ liburi-perl (>= 1.54),
+ libnet-ssleay-perl (>= 1.36)
+Description: AnyEvent based Perl module for validating YubiKey OTPs
  Validates a YubiKey OTP (One Time Password) using the YKVAL 2.0 protocol as
  defined here:
  https://github.com/Yubico/yubikey-val/wiki/ValidationProtocolV20
