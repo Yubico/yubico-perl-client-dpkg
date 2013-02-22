@@ -7,7 +7,7 @@ use MIME::Base64;
 use Digest::HMAC_SHA1 qw(hmac_sha1);
 use URI::Escape;
 
-our $VERSION = '0.9.1';
+our $VERSION = '0.9.2';
 
 # Creates a new Yubico instance to be used for validation of OTPs.
 sub new {
@@ -34,7 +34,7 @@ sub new {
 # Verifies the given OTP and returns a true value if the OTP could be 
 # verified, false otherwise.
 sub verify {
-	return verify_async(@_)->recv->{status} == 'OK';
+	return verify_async(@_)->recv->{status} eq 'OK';
 }
 
 # Verifies the given OTP and returns a hash containing the server response.
