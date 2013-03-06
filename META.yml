@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               AnyEvent-Yubico
-version:            0.9.2
+version:            0.9.3
 abstract:           AnyEvent based Perl extension for validating YubiKey OTPs.
 author:
     - Dain Nilsson <dain@yubico.com>
